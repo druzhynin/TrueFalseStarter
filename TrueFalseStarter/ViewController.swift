@@ -76,11 +76,16 @@ class ViewController: UIViewController {
         let selectedQuestionDict = listOfQuestion().questions[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict["correctAnswer"]
         
-        if (sender === answerOne &&  correctAnswer == "True") || (sender === answerTwo && correctAnswer == "False") {
+        if (sender === answerOne && answerOne.currentTitle == correctAnswer) ||
+           (sender === answerTwo && answerTwo.currentTitle == correctAnswer) ||
+           (sender === answerThree && answerThree.currentTitle == correctAnswer) ||
+           (sender === answerFour && answerFour.currentTitle == correctAnswer) {
             correctQuestions += 1
             rightOrWrongField.text = "Correct!"
+            rightOrWrongField.textColor = UIColor.green
         } else {
             rightOrWrongField.text = "Sorry, wrong answer!"
+            rightOrWrongField.textColor = UIColor.red
         }
         rightOrWrongField.isHidden = false
         loadNextRoundWithDelay(seconds: 2)
