@@ -131,9 +131,10 @@
                                     <action selector="playAgain" destination="BYZ-38-t0r" eventType="touchUpInside" id="klz-B2-JAN"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="rightOrWrongField" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IIe-jv-wJJ">
-                                <rect key="frame" x="76" y="156" width="262" height="40"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="33"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="rightOrWrongField" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oaL-4n-wz6">
+                                <rect key="frame" x="64" y="149" width="286" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -141,7 +142,6 @@
                         <color key="backgroundColor" red="0.031372549019607843" green="0.16862745098039217" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="AS4-HX-g9f" firstAttribute="leading" secondItem="J1V-MS-ECi" secondAttribute="leading" id="5ZN-Yj-aTg"/>
-                            <constraint firstItem="IIe-jv-wJJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7d3-9f-bxI"/>
                             <constraint firstItem="I3V-ih-1Ky" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="40" id="8qK-D4-Rze"/>
                             <constraint firstItem="I3V-ih-1Ky" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Eoo-h5-8ua"/>
                             <constraint firstItem="Qni-b7-f37" firstAttribute="leading" secondItem="AC0-9I-0DO" secondAttribute="leading" id="FAj-fg-2VZ"/>
@@ -151,14 +151,12 @@
                             <constraint firstItem="K17-uy-MvB" firstAttribute="top" secondItem="AS4-HX-g9f" secondAttribute="bottom" constant="60" id="Vy4-AA-d8h"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="J1V-MS-ECi" secondAttribute="trailing" constant="20" symbolic="YES" id="XrE-3I-bOO"/>
                             <constraint firstItem="AC0-9I-0DO" firstAttribute="top" secondItem="Qni-b7-f37" secondAttribute="bottom" constant="40" id="Y3P-qR-aZu"/>
-                            <constraint firstItem="Qni-b7-f37" firstAttribute="top" secondItem="IIe-jv-wJJ" secondAttribute="bottom" constant="70" id="Zrr-Iq-Tft"/>
                             <constraint firstItem="Qni-b7-f37" firstAttribute="leading" secondItem="J1V-MS-ECi" secondAttribute="leading" id="dJ4-MJ-sHo"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Qni-b7-f37" secondAttribute="trailing" constant="20" symbolic="YES" id="iOY-6a-wo8"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="AS4-HX-g9f" secondAttribute="trailing" constant="20" symbolic="YES" id="kYC-DI-LdN"/>
                             <constraint firstItem="AS4-HX-g9f" firstAttribute="leading" secondItem="K17-uy-MvB" secondAttribute="leading" id="rNR-1I-VV0"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="K17-uy-MvB" secondAttribute="bottom" constant="40" id="sHT-2Z-KQ7"/>
                             <constraint firstItem="J1V-MS-ECi" firstAttribute="top" secondItem="AC0-9I-0DO" secondAttribute="bottom" constant="40" id="xLF-i7-gP4"/>
-                            <constraint firstItem="IIe-jv-wJJ" firstAttribute="top" secondItem="I3V-ih-1Ky" secondAttribute="bottom" constant="76" id="yK6-r2-rQ3"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
@@ -169,7 +167,7 @@
                         <outlet property="answerTwo" destination="AC0-9I-0DO" id="1p1-ha-7U8"/>
                         <outlet property="playAgainButton" destination="K17-uy-MvB" id="0Bx-Cm-ye0"/>
                         <outlet property="questionField" destination="I3V-ih-1Ky" id="7UI-o2-ATi"/>
-                        <outlet property="rightOrWrongFiled" destination="IIe-jv-wJJ" id="ymi-zP-YON"/>
+                        <outlet property="rightOrWrongField" destination="oaL-4n-wz6" id="EPJ-Fb-FBD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     @objc var gameSound: SystemSoundID = 0
     
     @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var rightOrWrongFiled: UILabel!
+    @IBOutlet weak var rightOrWrongField: UILabel!
     @IBOutlet weak var answerOne: UIButton!
     @IBOutlet weak var answerTwo: UIButton!
     @IBOutlet weak var answerThree: UIButton!
@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         // Start game
         playGameStartSound()
         displayQuestion()
+        rightOrWrongField.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -77,15 +78,16 @@ class ViewController: UIViewController {
         
         if (sender === answerOne &&  correctAnswer == "True") || (sender === answerTwo && correctAnswer == "False") {
             correctQuestions += 1
-            questionField.text = "Correct!"
+            rightOrWrongField.text = "Correct!"
         } else {
-            questionField.text = "Sorry, wrong answer!"
+            rightOrWrongField.text = "Sorry, wrong answer!"
         }
-        
+        rightOrWrongField.isHidden = false
         loadNextRoundWithDelay(seconds: 2)
     }
     
     @objc func nextRound() {
+        rightOrWrongField.isHidden = true
         if questionsAsked == questionsPerRound {
             // Game is over
             displayScore()
