@@ -27,7 +27,7 @@ class ViewController: UIViewController {
     ]
     
     @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var rightWronfField: UILabel!
+    @IBOutlet weak var rightOrWrongFiled: UILabel!
     @IBOutlet weak var answerOne: UIButton!
     @IBOutlet weak var answerTwo: UIButton!
     @IBOutlet weak var answerThree: UIButton!
@@ -49,8 +49,8 @@ class ViewController: UIViewController {
     }
     
     @objc func displayQuestion() {
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.count)
-        let questionDictionary = trivia[indexOfSelectedQuestion]
+        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: listOfQuestion().questions.count)
+        let questionDictionary = listOfQuestion().questions[indexOfSelectedQuestion]
         questionField.text = questionDictionary["Question"]
         playAgainButton.isHidden = true
     }
@@ -61,6 +61,7 @@ class ViewController: UIViewController {
         answerTwo.isHidden = true
         answerThree.isHidden = true
         answerFour.isHidden = true
+        
         
         // Display play again button
         playAgainButton.isHidden = false
