@@ -27,8 +27,11 @@ class ViewController: UIViewController {
     ]
     
     @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet weak var rightWronfField: UILabel!
+    @IBOutlet weak var answerOne: UIButton!
+    @IBOutlet weak var answerTwo: UIButton!
+    @IBOutlet weak var answerThree: UIButton!
+    @IBOutlet weak var answerFour: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
     
 
@@ -54,8 +57,10 @@ class ViewController: UIViewController {
     
     @objc func displayScore() {
         // Hide the answer buttons
-        trueButton.isHidden = true
-        falseButton.isHidden = true
+        answerOne.isHidden = true
+        answerTwo.isHidden = true
+        answerThree.isHidden = true
+        answerFour.isHidden = true
         
         // Display play again button
         playAgainButton.isHidden = false
@@ -71,7 +76,7 @@ class ViewController: UIViewController {
         let selectedQuestionDict = trivia[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict["Answer"]
         
-        if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
+        if (sender === answerOne &&  correctAnswer == "True") || (sender === answerTwo && correctAnswer == "False") {
             correctQuestions += 1
             questionField.text = "Correct!"
         } else {
@@ -93,8 +98,10 @@ class ViewController: UIViewController {
     
     @IBAction func playAgain() {
         // Show the answer buttons
-        trueButton.isHidden = false
-        falseButton.isHidden = false
+        answerOne.isHidden = false
+        answerTwo.isHidden = false
+        answerThree.isHidden = false
+        answerFour.isHidden = false
         
         questionsAsked = 0
         correctQuestions = 0
