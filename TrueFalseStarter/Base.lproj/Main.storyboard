@@ -35,7 +35,7 @@
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="jXA-Vo-Itx"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="vhC-eO-6TX"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Answer 1"/>
                                 <userDefinedRuntimeAttributes>

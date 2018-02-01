@@ -19,13 +19,6 @@ class ViewController: UIViewController {
     
     @objc var gameSound: SystemSoundID = 0
     
-    @objc let trivia: [[String : String]] = [
-        ["Question": "Only female koalas can whistle", "Answer": "False"],
-        ["Question": "Blue whales are technically whales", "Answer": "True"],
-        ["Question": "Camels are cannibalistic", "Answer": "False"],
-        ["Question": "All ducks are birds", "Answer": "True"]
-    ]
-    
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var rightOrWrongFiled: UILabel!
     @IBOutlet weak var answerOne: UIButton!
@@ -53,6 +46,11 @@ class ViewController: UIViewController {
         let questionDictionary = listOfQuestion().questions[indexOfSelectedQuestion]
         questionField.text = questionDictionary["Question"]
         playAgainButton.isHidden = true
+        
+        answerOne.setTitle(questionDictionary["Answer1"], for: .normal)
+        answerTwo.setTitle(questionDictionary["Answer2"], for: .normal)
+        answerThree.setTitle(questionDictionary["Answer3"], for: .normal)
+        answerFour.setTitle(questionDictionary["Answer4"], for: .normal)
     }
     
     @objc func displayScore() {
@@ -74,8 +72,8 @@ class ViewController: UIViewController {
         // Increment the questions asked counter
         questionsAsked += 1
         
-        let selectedQuestionDict = trivia[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict["Answer"]
+        let selectedQuestionDict = listOfQuestion().questions[indexOfSelectedQuestion]
+        let correctAnswer = selectedQuestionDict["correctAnswer"]
         
         if (sender === answerOne &&  correctAnswer == "True") || (sender === answerTwo && correctAnswer == "False") {
             correctQuestions += 1
