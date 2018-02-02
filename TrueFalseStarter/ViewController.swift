@@ -72,35 +72,39 @@ class ViewController: UIViewController {
         
         let selectedQuestionDict = listOfQuestion().questions[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict["correctAnswer"]
+        let selectedAnswer = sender
+        let answers = [answerOne, answerTwo,answerThree, answerFour]
         
-        if (sender === answerOne && answerOne.currentTitle == correctAnswer) ||
-           (sender === answerTwo && answerTwo.currentTitle == correctAnswer) ||
-           (sender === answerThree && answerThree.currentTitle == correctAnswer) ||
-           (sender === answerFour && answerFour.currentTitle == correctAnswer) {
+        if (selectedAnswer === answerOne && answerOne.currentTitle == correctAnswer) ||
+           (selectedAnswer === answerTwo && answerTwo.currentTitle == correctAnswer) ||
+           (selectedAnswer === answerThree && answerThree.currentTitle == correctAnswer) ||
+           (selectedAnswer === answerFour && answerFour.currentTitle == correctAnswer) {
             correctQuestions += 1
             rightOrWrongField.text = "Correct!"
             rightOrWrongField.textColor = UIColor.green
         } else {
-            rightOrWrongField.text = "Sorry, wrong answer!)"
+            rightOrWrongField.text = "Sorry, wrong answer!"
             rightOrWrongField.textColor = UIColor.orange
         }
         rightOrWrongField.isHidden = false
         
-        answerOne.tintColor = UIColor.white.withAlphaComponent(0.3)
-        answerTwo.tintColor = UIColor.white.withAlphaComponent(0.3)
-        answerThree.tintColor = UIColor.white.withAlphaComponent(0.3)
-        answerFour.tintColor = UIColor.white.withAlphaComponent(0.3)
-        
-        if answerOne.currentTitle == correctAnswer {
-            answerOne.tintColor = UIColor.white.withAlphaComponent(1)
-        } else if answerTwo.currentTitle == correctAnswer {
-            answerTwo.tintColor = UIColor.white.withAlphaComponent(1)
-        } else if answerThree.currentTitle == correctAnswer {
-            answerThree.tintColor = UIColor.white.withAlphaComponent(1)
-        } else if answerFour.currentTitle == correctAnswer {
-            answerFour.tintColor = UIColor.white.withAlphaComponent(1)
+        for answer in answers {
+            answer?.tintColor = UIColor.white.withAlphaComponent(0.3)
         }
         
+        if selectedAnswer.currentTitle == correctAnswer {
+            selectedAnswer.tintColor = UIColor.white.withAlphaComponent(1)
+            selectedAnswer.tintColor = UIColor.green
+        } else {
+            selectedAnswer.tintColor = UIColor.white.withAlphaComponent(1)
+            selectedAnswer.tintColor = UIColor.orange
+            for answer in answers {
+                if answer?.currentTitle == correctAnswer {
+                answer?.tintColor = UIColor.green
+                }
+            }
+        }
+ 
         loadNextRoundWithDelay(seconds: 2)
     }
     
