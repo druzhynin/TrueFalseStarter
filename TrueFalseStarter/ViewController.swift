@@ -15,8 +15,6 @@ class ViewController: UIViewController {
     @objc let questionsPerRound = 4
     @objc var questionsAsked = 0
     @objc var correctQuestions = 0
-    @objc var indexOfSelectedQuestion: Int = 0
-    
     @objc var gameSound: SystemSoundID = 0
     
     @IBOutlet weak var questionField: UILabel!
@@ -26,7 +24,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var answerThree: UIButton!
     @IBOutlet weak var answerFour: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +40,8 @@ class ViewController: UIViewController {
     }
     
     @objc func displayQuestion() {
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: listOfQuestion().questions.count)
-        let questionDictionary = listOfQuestion().questions[indexOfSelectedQuestion]
+        let randomNumber = listOfQuestion().randomNumber()
+        let questionDictionary = listOfQuestion().questions[randomNumber]
         questionField.text = questionDictionary["Question"]
         playAgainButton.isHidden = true
         
@@ -84,10 +81,26 @@ class ViewController: UIViewController {
             rightOrWrongField.text = "Correct!"
             rightOrWrongField.textColor = UIColor.green
         } else {
-            rightOrWrongField.text = "Sorry, wrong answer!"
-            rightOrWrongField.textColor = UIColor.red
+            rightOrWrongField.text = "Sorry, wrong answer!)"
+            rightOrWrongField.textColor = UIColor.orange
         }
         rightOrWrongField.isHidden = false
+        
+        answerOne.tintColor = UIColor.white.withAlphaComponent(0.3)
+        answerTwo.tintColor = UIColor.white.withAlphaComponent(0.3)
+        answerThree.tintColor = UIColor.white.withAlphaComponent(0.3)
+        answerFour.tintColor = UIColor.white.withAlphaComponent(0.3)
+        
+        if answerOne.currentTitle == correctAnswer {
+            answerOne.tintColor = UIColor.white.withAlphaComponent(1)
+        } else if answerTwo.currentTitle == correctAnswer {
+            answerTwo.tintColor = UIColor.white.withAlphaComponent(1)
+        } else if answerThree.currentTitle == correctAnswer {
+            answerThree.tintColor = UIColor.white.withAlphaComponent(1)
+        } else if answerFour.currentTitle == correctAnswer {
+            answerFour.tintColor = UIColor.white.withAlphaComponent(1)
+        }
+        
         loadNextRoundWithDelay(seconds: 2)
     }
     
@@ -99,6 +112,10 @@ class ViewController: UIViewController {
         } else {
             // Continue game
             displayQuestion()
+            answerOne.tintColor = UIColor.white.withAlphaComponent(1)
+            answerTwo.tintColor = UIColor.white.withAlphaComponent(1)
+            answerThree.tintColor = UIColor.white.withAlphaComponent(1)
+            answerFour.tintColor = UIColor.white.withAlphaComponent(1)
         }
     }
     
