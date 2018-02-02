@@ -52,6 +52,8 @@ class ViewController: UIViewController {
         answerTwo.setTitle(questionDictionary["Answer2"], for: .normal)
         answerThree.setTitle(questionDictionary["Answer3"], for: .normal)
         answerFour.setTitle(questionDictionary["Answer4"], for: .normal)
+        
+        lightningCounter(seconds: 5)
     }
     
     @objc func displayScore() {
@@ -70,8 +72,6 @@ class ViewController: UIViewController {
     
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
-        questionsAsked += 1
-        
         let selectedQuestionDict = listOfQuestion().questions[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict["correctAnswer"]
         let selectedAnswer = sender
@@ -147,6 +147,15 @@ class ViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
             self.nextRound()
         }
+    }
+    
+    @objc func lightningCounter(seconds: Int) {
+        let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
+        let dispatchTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
+            self.nextRound()
+        }
+        questionsAsked += 1
     }
     
     @objc func loadGameStartSound() {
