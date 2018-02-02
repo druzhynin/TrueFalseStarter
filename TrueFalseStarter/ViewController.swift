@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var answerThree: UIButton!
     @IBOutlet weak var answerFour: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
+    var answers: [UIButton] = [UIButton]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ class ViewController: UIViewController {
         playGameStartSound()
         displayQuestion()
         rightOrWrongField.isHidden = true
+        self.answers = [self.answerOne, self.answerTwo, self.answerThree, self.answerFour]
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,12 +56,11 @@ class ViewController: UIViewController {
     
     @objc func displayScore() {
         // Hide the answer buttons
-        answerOne.isHidden = true
-        answerTwo.isHidden = true
-        answerThree.isHidden = true
-        answerFour.isHidden = true
         
-        
+        for answer in answers {
+            answer.isHidden = true
+        }
+    
         // Display play again button
         playAgainButton.isHidden = false
         
@@ -73,23 +75,22 @@ class ViewController: UIViewController {
         let selectedQuestionDict = listOfQuestion().questions[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict["correctAnswer"]
         let selectedAnswer = sender
-        let answers = [answerOne, answerTwo,answerThree, answerFour]
+        //let answers = [answerOne, answerTwo,answerThree, answerFour]
         
-        if (selectedAnswer === answerOne && answerOne.currentTitle == correctAnswer) ||
-           (selectedAnswer === answerTwo && answerTwo.currentTitle == correctAnswer) ||
-           (selectedAnswer === answerThree && answerThree.currentTitle == correctAnswer) ||
-           (selectedAnswer === answerFour && answerFour.currentTitle == correctAnswer) {
+        for answer in answers where selectedAnswer === answer && answer.currentTitle == correctAnswer {
             correctQuestions += 1
             rightOrWrongField.text = "Correct!"
             rightOrWrongField.textColor = UIColor.green
-        } else {
+        }
+        for answer in answers where selectedAnswer === answer && answer.currentTitle != correctAnswer {
             rightOrWrongField.text = "Sorry, wrong answer!"
             rightOrWrongField.textColor = UIColor.orange
         }
+        
         rightOrWrongField.isHidden = false
         
         for answer in answers {
-            answer?.tintColor = UIColor.white.withAlphaComponent(0.3)
+            answer.tintColor = UIColor.white.withAlphaComponent(0.3)
         }
         
         if selectedAnswer.currentTitle == correctAnswer {
@@ -99,8 +100,8 @@ class ViewController: UIViewController {
             selectedAnswer.tintColor = UIColor.white.withAlphaComponent(1)
             selectedAnswer.tintColor = UIColor.orange
             for answer in answers {
-                if answer?.currentTitle == correctAnswer {
-                answer?.tintColor = UIColor.green
+                if answer.currentTitle == correctAnswer {
+                    answer.tintColor = UIColor.green
                 }
             }
         }
@@ -116,20 +117,17 @@ class ViewController: UIViewController {
         } else {
             // Continue game
             displayQuestion()
-            answerOne.tintColor = UIColor.white.withAlphaComponent(1)
-            answerTwo.tintColor = UIColor.white.withAlphaComponent(1)
-            answerThree.tintColor = UIColor.white.withAlphaComponent(1)
-            answerFour.tintColor = UIColor.white.withAlphaComponent(1)
+            for answer in answers {
+                answer.tintColor = UIColor.white.withAlphaComponent(1)
+            }
         }
     }
     
     @IBAction func playAgain() {
         // Show the answer buttons
-        answerOne.isHidden = false
-        answerTwo.isHidden = false
-        answerThree.isHidden = false
-        answerFour.isHidden = false
-        
+        for answer in answers {
+            answer.isHidden = false
+        }
         questionsAsked = 0
         correctQuestions = 0
         nextRound()
