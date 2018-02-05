@@ -10,11 +10,11 @@ import Foundation
 import GameKit
 
 var indexOfSelectedQuestion: Int = 0
-var firstRandomNumber: Int = 0
+var previousRandomNumber: Int = 0
 var randomNumberArray = [Int]()
 
 struct listOfQuestion {
-    let questions: [[String : String]] = [
+    var questions: [[String : String]] = [
     ["Question": "Which is the only American state to begin with the letter 'p'?",
      "correctAnswer": "Pennsylvania",
      "Answer1": "Pringston", "Answer2": "Pennsylvania", "Answer3": "Portugal", "Answer4": "Panama"],
@@ -45,24 +45,24 @@ struct listOfQuestion {
     ["Question": "Which English town was a forerunner of the Parks Movement and the first city in Europe to have a street tram system?",
      "correctAnswer": "Birkenhead",
     "Answer1": "London", "Answer2": "Manchester", "Answer3": "Birkenhead", "Answer4": "Oxford"]
+ 
     ]
+
     func randomNumber() -> Int {
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: listOfQuestion().questions.count)
-        while firstRandomNumber == indexOfSelectedQuestion {
+       
+        while previousRandomNumber == indexOfSelectedQuestion || randomNumberArray.contains(indexOfSelectedQuestion) {
             indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: listOfQuestion().questions.count)
             }
-        firstRandomNumber = indexOfSelectedQuestion
+        randomNumberArray.append(indexOfSelectedQuestion)
+        previousRandomNumber = indexOfSelectedQuestion
+        
         return indexOfSelectedQuestion
     }
+    
+    func clearArrayList() {
+        randomNumberArray = []
+    }
+
 }
-/*
- func randomNumber() -> Int {
- indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: listOfQuestion().questions.count)
- while firstRandomNumber == indexOfSelectedQuestion {
- indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: listOfQuestion().questions.count)
- }
- firstRandomNumber = indexOfSelectedQuestion
- return indexOfSelectedQuestion
- }
- */
+
 

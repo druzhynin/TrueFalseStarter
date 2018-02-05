@@ -35,6 +35,7 @@ class ViewController: UIViewController {
         displayQuestion()
         rightOrWrongField.isHidden = true
         self.answers = [self.answerOne, self.answerTwo, self.answerThree, self.answerFour]
+        //secondsLeft.text = "You have \(lightningCounter(seconds: 5)) seconds."
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,7 +45,8 @@ class ViewController: UIViewController {
     
     @objc func displayQuestion() {
         let randomNumber = listOfQuestion().randomNumber()
-        let questionDictionary = listOfQuestion().questions[randomNumber]
+        var questionDictionary = listOfQuestion().questions[randomNumber]
+        
         questionField.text = questionDictionary["Question"]
         playAgainButton.isHidden = true
         
@@ -53,17 +55,18 @@ class ViewController: UIViewController {
         answerThree.setTitle(questionDictionary["Answer3"], for: .normal)
         answerFour.setTitle(questionDictionary["Answer4"], for: .normal)
         
-        lightningCounter(seconds: 5)
+        questionsAsked += 1
+        
+     //   lightningCounter(seconds: 15)
     }
     
     @objc func displayScore() {
         // Hide the answer buttons
-        
         for answer in answers {
             answer.isHidden = true
         }
     
-        // Display play again button
+        // Display "Play again" button
         playAgainButton.isHidden = false
         
         questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
@@ -75,7 +78,6 @@ class ViewController: UIViewController {
         let selectedQuestionDict = listOfQuestion().questions[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict["correctAnswer"]
         let selectedAnswer = sender
-        //let answers = [answerOne, answerTwo,answerThree, answerFour]
         
         for answer in answers where selectedAnswer === answer && answer.currentTitle == correctAnswer {
             correctQuestions += 1
@@ -130,6 +132,7 @@ class ViewController: UIViewController {
         }
         questionsAsked = 0
         correctQuestions = 0
+        listOfQuestion().clearArrayList()
         nextRound()
     }
     
