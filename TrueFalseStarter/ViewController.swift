@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @objc var questionsAsked = 0
     @objc var correctQuestions = 0
     @objc var gameSound: SystemSoundID = 0
+    @objc var yesSound: SystemSoundID = 1
+    @objc var noSound: SystemSoundID = 2
     
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var rightOrWrongField: UILabel!
@@ -30,6 +32,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadGameStartSound()
+        loadYesSound()
+        loadNoSound()
         // Start game
         playGameStartSound()
         displayQuestion()
@@ -83,10 +87,12 @@ class ViewController: UIViewController {
             correctQuestions += 1
             rightOrWrongField.text = "Correct!"
             rightOrWrongField.textColor = UIColor.green
+            playYesSound()
         }
         for answer in answers where selectedAnswer === answer && answer.currentTitle != correctAnswer {
             rightOrWrongField.text = "Sorry, wrong answer!"
             rightOrWrongField.textColor = UIColor.orange
+            playNoSound()
         }
         
         rightOrWrongField.isHidden = false
@@ -169,6 +175,26 @@ class ViewController: UIViewController {
     
     @objc func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
+    }
+    
+    @objc func loadYesSound() {
+        let pathToSoundFile = Bundle.main.path(forResource: "YesSound", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &yesSound)
+    }
+    
+    @objc func playYesSound() {
+        AudioServicesPlaySystemSound(yesSound)
+    }
+    
+    @objc func loadNoSound() {
+        let pathToSoundFile = Bundle.main.path(forResource: "NoSound", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &noSound)
+    }
+    
+    @objc func playNoSound() {
+        AudioServicesPlaySystemSound(noSound)
     }
 }
 
