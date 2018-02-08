@@ -19,6 +19,13 @@ class ViewController: UIViewController {
     @objc var yesSound: SystemSoundID = 1
     @objc var noSound: SystemSoundID = 2
     
+    // Lightning Timer Variables
+    
+    @objc var lightningTimer = Timer()
+    @objc var seconds = 15
+    @objc var timerRunning = false
+    
+    @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var rightOrWrongField: UILabel!
     @IBOutlet weak var answerOne: UIButton!
@@ -34,12 +41,13 @@ class ViewController: UIViewController {
         loadGameStartSound()
         loadYesSound()
         loadNoSound()
+        
         // Start game
         playGameStartSound()
         displayQuestion()
+        
         rightOrWrongField.isHidden = true
         self.answers = [self.answerOne, self.answerTwo, self.answerThree, self.answerFour]
-        //secondsLeft.text = "You have \(lightningCounter(seconds: 5)) seconds."
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,6 +71,7 @@ class ViewController: UIViewController {
     }
     
     @objc func displayQuestion() {
+        
         let randomNumber = self.randomNumber()
         let questionDictionary = listOfQuestions[randomNumber]
         
@@ -74,12 +83,13 @@ class ViewController: UIViewController {
         answerThree.setTitle(questionDictionary.answer3, for: .normal)
         answerFour.setTitle(questionDictionary.answer4, for: .normal)
         
-        questionsAsked += 1
-        
-     //   lightningCounter(seconds: 15)
+        lightningTimer.invalidate()
+        resetTimer()
+        startTimer()
     }
     
     @objc func displayScore() {
+        
         // Hide the answer buttons
         for answer in answers {
             answer.isHidden = true
@@ -87,27 +97,31 @@ class ViewController: UIViewController {
     
         // Display "Play again" button
         playAgainButton.isHidden = false
-        
         questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
-        
     }
     
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
+        timerRunning = false
         let selectedQuestionDict = listOfQuestions[indexOfSelectedQuestion]
         let correctAnswer = selectedQuestionDict.correctAnswer
         let selectedAnswer = sender
         
         for answer in answers where selectedAnswer === answer && answer.currentTitle == correctAnswer {
             correctQuestions += 1
+            questionsAsked += 1
             rightOrWrongField.text = "Correct!"
             rightOrWrongField.textColor = UIColor.green
             playYesSound()
+            timerLabel.isHidden = true
+            resetTimer()
         }
         for answer in answers where selectedAnswer === answer && answer.currentTitle != correctAnswer {
             rightOrWrongField.text = "Sorry, wrong answer!"
             rightOrWrongField.textColor = UIColor.orange
+            questionsAsked += 1
             playNoSound()
+            timerLabel.isHidden = true
         }
         
         rightOrWrongField.isHidden = false
@@ -128,7 +142,6 @@ class ViewController: UIViewController {
                 }
             }
         }
- 
         loadNextRoundWithDelay(seconds: 2)
     }
     
@@ -137,12 +150,15 @@ class ViewController: UIViewController {
         if questionsAsked == questionsPerRound {
             // Game is over
             displayScore()
+            lightningTimer.invalidate()
+            timerLabel.isHidden = true
         } else {
             // Continue game
             displayQuestion()
             for answer in answers {
                 answer.tintColor = UIColor.white.withAlphaComponent(1)
             }
+            timerLabel.isHidden = false
         }
     }
     
@@ -157,9 +173,47 @@ class ViewController: UIViewController {
         nextRound()
     }
     
-
-    
     // MARK: Helper Methods
+    
+    // Timer
+    
+    @objc func startTimer() {
+        timerLabel.textColor = UIColor.green
+        timerLabel.isHidden = false
+        if timerRunning == false {
+            lightningTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.countdownTimer), userInfo: nil, repeats: true)
+            timerRunning = true
+        }
+    }
+    
+    @objc func countdownTimer() {
+        seconds -= 1 // countdown by 1 second
+        timerLabel.text = "You've got: \(seconds) seconds to answer."
+        
+        if seconds >= 11 {
+            timerLabel.textColor = UIColor.green
+        } else if seconds < 11 && seconds > 5 {
+            timerLabel.textColor = UIColor.yellow
+        } else {
+            timerLabel.textColor = UIColor.red
+        }
+        
+        if seconds == 0 {
+            lightningTimer.invalidate()
+            questionsAsked += 1
+            playNoSound()
+            self.loadNextRoundWithDelay(seconds: 2)
+            timerLabel.text = "Sorry, time ran out!"
+        }
+    }
+    
+    @objc func resetTimer() {
+        seconds = 15
+        timerLabel.text = "You've got: \(seconds) seconds to answer."
+        timerRunning = false
+    }
+
+    // Load next round with delay
     
     @objc func loadNextRoundWithDelay(seconds: Int) {
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
@@ -172,16 +226,7 @@ class ViewController: UIViewController {
             self.nextRound()
         }
     }
-    
-    @objc func lightningCounter(seconds: Int) {
-        let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
-        let dispatchTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
-            self.nextRound()
-        }
-        questionsAsked += 1
-    }
-    
+
     @objc func loadGameStartSound() {
         let pathToSoundFile = Bundle.main.path(forResource: "GameSound", ofType: "wav")
         let soundURL = URL(fileURLWithPath: pathToSoundFile!)
