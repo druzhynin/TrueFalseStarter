@@ -47,17 +47,32 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @objc func displayQuestion() {
-        let randomNumber = listOfQuestion().randomNumber()
-        var questionDictionary = listOfQuestion().questions[randomNumber]
+    @objc func randomNumber() -> Int {
         
-        questionField.text = questionDictionary["Question"]
+        while previousRandomNumber == indexOfSelectedQuestion || randomNumberArray.contains(indexOfSelectedQuestion) {
+            indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: listOfQuestions.count)
+        }
+        randomNumberArray.append(indexOfSelectedQuestion)
+        previousRandomNumber = indexOfSelectedQuestion
+        
+        return indexOfSelectedQuestion
+    }
+    
+    @objc func clearArrayList() {
+        randomNumberArray = []
+    }
+    
+    @objc func displayQuestion() {
+        let randomNumber = self.randomNumber()
+        let questionDictionary = listOfQuestions[randomNumber]
+        
+        questionField.text = questionDictionary.question
         playAgainButton.isHidden = true
         
-        answerOne.setTitle(questionDictionary["Answer1"], for: .normal)
-        answerTwo.setTitle(questionDictionary["Answer2"], for: .normal)
-        answerThree.setTitle(questionDictionary["Answer3"], for: .normal)
-        answerFour.setTitle(questionDictionary["Answer4"], for: .normal)
+        answerOne.setTitle(questionDictionary.answer1, for: .normal)
+        answerTwo.setTitle(questionDictionary.answer2, for: .normal)
+        answerThree.setTitle(questionDictionary.answer3, for: .normal)
+        answerFour.setTitle(questionDictionary.answer4, for: .normal)
         
         questionsAsked += 1
         
@@ -79,8 +94,8 @@ class ViewController: UIViewController {
     
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
-        let selectedQuestionDict = listOfQuestion().questions[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict["correctAnswer"]
+        let selectedQuestionDict = listOfQuestions[indexOfSelectedQuestion]
+        let correctAnswer = selectedQuestionDict.correctAnswer
         let selectedAnswer = sender
         
         for answer in answers where selectedAnswer === answer && answer.currentTitle == correctAnswer {
@@ -138,7 +153,7 @@ class ViewController: UIViewController {
         }
         questionsAsked = 0
         correctQuestions = 0
-        listOfQuestion().clearArrayList()
+        clearArrayList()
         nextRound()
     }
     
